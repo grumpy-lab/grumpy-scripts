@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Function to rename files in a directory
+rename_files() {
+  local current_dir="$1"
+  local dir_name
+
+  # Get the directory name
+  dir_name=$(basename "$current_dir")
+
+  # Loop through each item in the directory
+  for item in "$current_dir"/*; do
+    if [[ -d "$item" ]]; then
+      # If it's a directory, recursively call the function
+      rename_files "$item"
+    elif [[ -f "$item" ]]; then
+      # If it's a file, rename it
+      filename=$(basename -- "$item")
+      extension="${filename##*.}"
+      name="${filename%.*}"
+
+      # Check if the filename already contains the directory name
+      if [[ "$name" != "${dir_name}"_* ]]; then
+        new_name="${dir_name}__${name}.${extension}"
+        mv "$item" "${current_dir}/${new_name}"
+      fi
+    fi
+  done
+}
+
+# Call the function with the current directory as the starting point
+rename_files "$(pwd)"
+
+echo "File renaming complete."
+

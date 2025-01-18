@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Loop through all items in the current directory
+for dir in */ ; do
+    # Remove trailing slash from directory name
+    dir_name="${dir%/}"
+    # Capitalize the first letter of the directory name
+    capitalized_dir_name="$(echo "$dir_name" | sed 's/./\u&/')"
+    # Rename the directory
+    mv "$dir_name" "$capitalized_dir_name"
+done
+

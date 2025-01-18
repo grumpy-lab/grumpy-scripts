@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Function to download using yt-dlp with a specified output directory
+download_video() {
+    local url=$1
+    local output_dir=$2
+    yt-dlp -f "bv*+ba/b" -o "${output_dir}/%(title)s.%(ext)s" --embed-thumbnail -w "$url"
+}
+
+# Infinite loop to ask for URL and download
+while true; do
+    read -p "Please enter the URL: " url
+
+    # Check if the user entered a URL
+    if [ -n "$url" ]; then
+        # Ask for the output directory
+        read -p "Press Enter to download to the default location, or enter a subdirectory name: " subdir
+
+	# Set the output directory
+        if [ -z "$subdir" ]; then
+            output_dir="/home/jack/Downloads/new-vids"
+        else
+            output_dir="/home/jack/Downloads/new-vids/$subdir"
+        fi
+
+        # Create the directory if it doesn't exist
+        mkdir -p "$output_dir"
+
+        # Run the download function
+        download_video "$url" "$output_dir"
+        echo "Download complete. Saved to $output_dir."
+    else
+        echo "No URL entered. Exiting."
+        break
+    fi
+done
+
+exit 0
+
