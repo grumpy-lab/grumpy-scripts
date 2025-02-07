@@ -18,9 +18,9 @@ while true; do
 
 	# Set the output directory
         if [ -z "$subdir" ]; then
-            output_dir="~/Downloads/new-vids"
+            output_dir="~/Downloads/new-videos"
         else
-            output_dir="~/Downloads/new-vids/$subdir"
+            output_dir="~/Downloads/new-videos/$subdir"
         fi
 
         # Create the directory if it doesn't exist
